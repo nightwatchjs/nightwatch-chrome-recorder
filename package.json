@@ -1,0 +1,34 @@
+{
+  "name": "nightwatch-chrome-recorder",
+  "version": "0.0.1",
+  "description": "Export Nightwatch Tests from Google Chrome DevTools' Recorder",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint '**/*.{js,ts}' --fix",
+    "prettier": "prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaibhavsingh97/nightwatch-chrome-recorder.git"
+  },
+  "author": "Vaibhav Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/issues"
+  },
+  "homepage": "https://github.com/vaibhavsingh97/nightwatch-chrome-recorder#readme",
+  "devDependencies": {
+    "@types/node": "^18.6.4",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint": "^8.21.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  }
+}
