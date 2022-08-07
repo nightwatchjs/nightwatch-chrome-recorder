@@ -14,7 +14,7 @@
     "watch": "tsc -w",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "prettier": "prettier --write .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --config .mocharc.cjs"
   },
   "repository": {
     "type": "git",
@@ -27,13 +27,18 @@
   },
   "homepage": "https://github.com/vaibhavsingh97/nightwatch-chrome-recorder#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.1",
     "@types/inquirer": "^9.0.0",
+    "@types/mocha": "^9.1.1",
     "@types/node": "^18.6.4",
     "@types/prettier": "^2.7.0",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
+    "chai": "^4.3.6",
     "eslint": "^8.21.0",
+    "mocha": "^10.0.0",
     "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
   },
   "dependencies": {
