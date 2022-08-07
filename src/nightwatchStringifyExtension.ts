@@ -90,8 +90,8 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     const hasRightButton = step.button && step.button === 'secondary';
     if (domSelector) {
       hasRightButton
-        ? out.appendLine(`browser.rightClick(${domSelector})`)
-        : out.appendLine(`browser.click(${domSelector})`);
+        ? out.appendLine(`browser.rightClick(${domSelector});`)
+        : out.appendLine(`browser.click(${domSelector});`);
     } else {
       console.log(
         chalk.yellow(
@@ -107,7 +107,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
       out.appendLine(
         `browser.setValue(${domSelector}, ${this.#formatAsJSLiteral(
           step.value,
-        )})`,
+        )});`,
       );
     }
   }
@@ -151,9 +151,9 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
       const domSelector = this.getSelector(step.selectors, flow);
       out.appendLine(`browser.moveToElement(${domSelector}, 0, 0);`);
     } else {
-      out.appendLine(`browser.execute('scrollTo(${step.x}, ${step.y})')`);
+      out.appendLine(`browser.execute('scrollTo(${step.x}, ${step.y})');`);
     }
-    out.appendLine('');
+    out.appendLine(' ');
   }
 
   #appendDoubleClickStep(
@@ -164,7 +164,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     const domSelector = this.getSelector(step.selectors, flow);
 
     if (domSelector) {
-      out.appendLine(` browser.doubleClick(${domSelector});`);
+      out.appendLine(`browser.doubleClick(${domSelector});`);
     } else {
       console.log(
         `Warning: The click on ${step.selectors} was not able to be exported to Nightwatch. Please adjust your selectors and try again.`,
