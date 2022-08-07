@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import { readFileSync, writeFile, mkdir, existsSync } from 'fs';
 import * as path from 'path';
-import { nightwatchStringifyChromeRecording } from '../main.js';
-import { ExportToFile, Flags } from '../types.js';
+import { nightwatchStringifyChromeRecording } from './main.js';
+import { ExportToFile, Flags } from './types.js';
 
 const __dirname = path.resolve(path.dirname('.'));
 

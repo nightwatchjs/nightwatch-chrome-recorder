@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import { InquirerAnswerTypes } from '../types';
 import { expandedFiles } from '../utils.js';
 import { defaultOutputFolder } from '../constants.js';
-import { runTransformsOnChromeRecording } from './transform.js';
+import { runTransformsOnChromeRecording } from '../transform.js';
 
 const cli = meow(
   `
