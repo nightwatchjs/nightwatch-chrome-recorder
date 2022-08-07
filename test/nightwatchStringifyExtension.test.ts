@@ -110,6 +110,28 @@ describe('NightwatchStringifyExtension', () => {
 `);
   });
 
+  it('should handle keyDown step when key is not supported', async () => {
+    const ext = new NightwatchStringifyExtension();
+    const step = {
+      type: 'keyDown' as const,
+      target: 'main',
+      key: 'KEY_DOESNT_EXIST' as Key,
+      assertedEvents: [
+        {
+          type: 'navigation' as const,
+          url: 'https://google.com',
+          title: 'nightwatch - Google Search',
+        },
+      ],
+    };
+    const flow = { title: 'keyDown step', steps: [step] };
+
+    const writer = new InMemoryLineWriter('  ');
+    await ext.stringifyStep(writer, step, flow);
+
+    expect(writer.toString()).to.equal('\n');
+  });
+
   it('should correctly exports keyUp step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
