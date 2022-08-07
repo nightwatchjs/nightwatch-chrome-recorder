@@ -1,8 +1,9 @@
 import meow from 'meow';
 import inquirer from 'inquirer';
 import { InquirerAnswerTypes } from '../types';
-import { expandedFiles } from '../utils';
-import { defaultOutputFolder } from '../constants';
+import { expandedFiles } from '../utils.js';
+import { defaultOutputFolder } from '../constants.js';
+import { runTransformsOnChromeRecording } from './transform.js';
 
 const cli = meow(
   `
@@ -52,7 +53,7 @@ inquirer
       type: 'input',
       name: 'outputPath',
       message: 'Where should be exported files to be output?',
-      when: () => (cli.flags?.output ? false : true),
+      when: () => !cli.input.length,
       default: 'nightwatch',
     },
   ])
@@ -70,11 +71,11 @@ inquirer
       ? cli.flags.output
       : outputFolder;
 
-    return {
+    return runTransformsOnChromeRecording({
       files: filesExpanded,
       outputPath: outputPath ?? defaultOutputFolder,
       flags: cli.flags,
-    };
+    });
   })
   .catch((error) => {
     if (error.isTtyError) {
