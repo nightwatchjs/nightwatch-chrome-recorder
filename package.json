@@ -10,6 +10,7 @@
   ],
   "type": "module",
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc -p .",
     "watch": "tsc -w",
     "lint": "eslint '**/*.{js,ts}' --fix",
@@ -20,6 +21,13 @@
     "type": "git",
     "url": "git+https://github.com/vaibhavsingh97/nightwatch-chrome-recorder.git"
   },
+  "keywords": [
+    "nightwatch",
+    "testing",
+    "e2e",
+    "automation",
+    "devtools"
+  ],
   "author": "Vaibhav Singh",
   "license": "MIT",
   "bugs": {
