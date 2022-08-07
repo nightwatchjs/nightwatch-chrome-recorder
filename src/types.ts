@@ -8,6 +8,13 @@ export type Flags = {
   output?: string;
 };
 
+export type ExportToFile = {
+  stringifiedFile: string;
+  testName: string;
+  outputPath: string;
+  outputFolder: string;
+};
+
 type UppercaseKeys =
   | 'NULL'
   | 'CANCEL'

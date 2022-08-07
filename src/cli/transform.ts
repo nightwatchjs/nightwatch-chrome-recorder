@@ -1,8 +1,8 @@
 import chalk from 'chalk';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFile, mkdir, existsSync } from 'fs';
 import * as path from 'path';
 import { nightwatchStringifyChromeRecording } from '../main.js';
-import { Flags } from '../types';
+import { ExportToFile, Flags } from '../types.js';
 
 const __dirname = path.resolve(path.dirname('.'));
 
@@ -16,10 +16,12 @@ export function runTransformsOnChromeRecording({
   flags: Flags;
 }) {
   const outputFolder = path.join(__dirname, outputPath);
-  const { dry, output } = flags;
+  const { dry } = flags;
 
   return files.map(async (file) => {
-    console.log(chalk.green(`Running Nightwatch Chrome Recorder on ${file}\n`));
+    console.log(
+      chalk.green(`🦉 Running Nightwatch  Chrome Recorder on ${file}\n`),
+    );
 
     const recordingContent = readFileSync(file, 'utf-8');
     const stringifiedFile = await nightwatchStringifyChromeRecording(
@@ -30,10 +32,71 @@ export function runTransformsOnChromeRecording({
       return;
     }
 
+    const fileName = file.split('/').pop();
+    const testName = fileName ? fileName.replace('.json', '') : undefined;
+
     if (dry) {
       console.log(stringifiedFile);
+    } else if (!testName) {
+      chalk.red('Please try again. Now file or folder found');
+    } else {
+      exportFileToFolder({
+        stringifiedFile,
+        testName,
+        outputPath,
+        outputFolder,
+      });
     }
-
-    return recordingContent;
   });
+}
+
+function exportFileToFolder({
+  stringifiedFile,
+  testName,
+  outputPath,
+  outputFolder,
+}: ExportToFile): void {
+  const folderPath = path.join('.', outputPath);
+  if (!existsSync(folderPath)) {
+    mkdir(
+      path.join('.', outputPath),
+      {
+        recursive: true,
+      },
+      (err: NodeJS.ErrnoException | null) => {
+        if (!err) {
+          exportFileToFolder({
+            stringifiedFile,
+            testName,
+            outputFolder,
+            outputPath,
+          });
+        } else {
+          console.error(
+            `😭 Something went wrong while creating ${outputPath}\n Stacktrace: ${err?.stack}`,
+          );
+        }
+      },
+    );
+  } else {
+    writeFile(
+      path.join(outputFolder, `/${testName}.js`),
+      stringifiedFile,
+      (err: NodeJS.ErrnoException | null) => {
+        if (!err) {
+          console.log(
+            chalk.green(
+              `\n ✅ ${testName}.json exported to ${outputPath}/${testName}.js\n `,
+            ),
+          );
+        } else {
+          console.log(
+            chalk.red(
+              `\n 😭 Something went wrong exporting ${outputPath}/${testName}.js \n`,
+            ),
+          );
+        }
+      },
+    );
+  }
 }
