@@ -1,5 +1,5 @@
 {
-  "name": "nightwatch-chrome-recorder",
+  "name": "@nightwatch/chrome-recorder",
   "version": "0.0.1",
   "description": "Generate Nightwatch Tests from Google Chrome DevTools Recordings",
   "main": "dist/main.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vaibhavsingh97/nightwatch-chrome-recorder.git"
+    "url": "git+https://github.com/nightwatchjs/nightwatch-chrome-recorder.git"
   },
   "keywords": [
     "nightwatch",
@@ -28,12 +28,12 @@
     "automation",
     "devtools"
   ],
-  "author": "Vaibhav Singh",
+  "author": "Vaibhav Singh <vaibhav.s@browserstack.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/issues"
+    "url": "https://github.com/nightwatchjs/nightwatch-chrome-recorder/issues"
   },
-  "homepage": "https://github.com/vaibhavsingh97/nightwatch-chrome-recorder#readme",
+  "homepage": "https://github.com/nightwatchjs/nightwatch-chrome-recorder#readme",
   "devDependencies": {
     "@types/chai": "^4.3.1",
     "@types/inquirer": "^9.0.0",

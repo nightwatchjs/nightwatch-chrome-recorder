@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { parse, Schema, stringify } from '@puppeteer/replay';
 import { NightwatchStringifyExtension } from './nightwatchStringifyExtension.js';
 import prettier from 'prettier';
@@ -32,9 +31,7 @@ export async function nightwatchStringifyChromeRecording(
 ): Promise<Promise<string> | undefined> {
   if (recording.length === 0) {
     console.log(
-      chalk.yellow(
-        `No recording found. Please create and upload before trying again`,
-      ),
+      `No recording found. Please create and upload before trying again`,
     );
     return;
   }

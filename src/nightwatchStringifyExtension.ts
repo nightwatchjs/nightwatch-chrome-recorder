@@ -15,7 +15,6 @@ import {
   WaitForElementStep,
   Selector,
 } from '@puppeteer/replay';
-import chalk from 'chalk';
 import { SupportedKeys, DowncaseKeys } from './types.js';
 
 export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
@@ -94,9 +93,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
         : out.appendLine(`browser.click(${domSelector});`);
     } else {
       console.log(
-        chalk.yellow(
-          `Warning: The click on ${step.selectors} was not able to export to Nightwatch. Please adjust selectors and try again`,
-        ),
+        `Warning: The click on ${step.selectors} was not able to export to Nightwatch. Please adjust selectors and try again`,
       );
     }
   }
@@ -238,9 +235,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
   logStepsNotImplemented(step: Step): void {
     console.log(
-      chalk.yellow(
-        `Warning: Nightwatch Chrome Recorder does not handle migration of types ${step.type}.`,
-      ),
+      `Warning: Nightwatch Chrome Recorder does not handle migration of types ${step.type}.`,
     );
   }
 }
