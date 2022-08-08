@@ -9,6 +9,10 @@ This repo provide tools to export Nightwatch test from Google Chrome Devtools Re
 💃 Users can also use a dry run to see the interim output of the recordings  
 👨‍💻 Programmatic API which users can use in their own project to create plugins or custom scripts.  
 
+## 📹 Demo
+![Nightwatch Chrome Recorder Demo](.github/assets/demo.gif)
+
+
 ## 🏗 Installation
 
 ```sh
