@@ -98,13 +98,14 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal(`
-        .perform(function() {
+    expect(writer.toString()).to.equal(
+      `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyDown(Keys.ENTER);
-        })\n`);
+          .keyDown(this.Keys.ENTER);
+        })\n`,
+    );
   });
 
   it('should handle keyDown step when key is not supported', async () => {
@@ -148,13 +149,14 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal(`
-        .perform(function() {
+    expect(writer.toString()).to.equal(
+      `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyUp(Keys.ENTER);
-        })\n`);
+          .keyUp(this.Keys.ENTER);
+        })\n`,
+    );
   });
 
   it('should correctly exports scroll step', async () => {

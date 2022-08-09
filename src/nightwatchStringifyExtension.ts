@@ -32,6 +32,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
   }
 
   async afterAllSteps(out: LineWriter): Promise<void> {
+    this.#appendEndStep(out);
     out.appendLine('});').endBlock();
     out.appendLine('});');
   }
@@ -110,14 +111,14 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
     if (pressedKey in SupportedKeys) {
       const keyValue = SupportedKeys[pressedKey];
-      out.appendLine(`
-        .perform(function() {
+      out.appendLine(
+        `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyDown(Keys.${keyValue});
-        })
-      `);
+          .keyDown(this.Keys.${keyValue});
+        })`,
+      );
     }
   }
 
@@ -126,14 +127,14 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
     if (pressedKey in SupportedKeys) {
       const keyValue = SupportedKeys[pressedKey];
-      out.appendLine(`
-        .perform(function() {
+      out.appendLine(
+        `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyUp(Keys.${keyValue});
-        })
-      `);
+          .keyUp(this.Keys.${keyValue});
+        })`,
+      );
     }
   }
 
@@ -195,6 +196,10 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
         `Warning: The WaitForElement on ${step.selectors} was not able to be exported to Nightwatch. Please adjust your selectors and try again.`,
       );
     }
+  }
+
+  #appendEndStep(out: LineWriter): void {
+    out.appendLine(`.end();`);
   }
 
   getSelector(selectors: Selector[], flow: UserFlow): string | undefined {
