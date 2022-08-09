@@ -7,11 +7,11 @@ This repo provide tools to export Nightwatch test from Google Chrome Devtools Re
 ✅ Converts multiple recordings to Nightwatch tests in one go (out-of-the-box glob support)  
 🗂 User can pass their custom path to export tests.  
 💃 Users can also use a dry run to see the interim output of the recordings  
-👨‍💻 Programmatic API which users can use in their own project to create plugins or custom scripts.  
+👨‍💻 Programmatic API which users can use in their own project to create plugins or custom scripts.
 
 ## 📹 Demo
-![Nightwatch Chrome Recorder Demo](.github/assets/demo.gif)
 
+![Nightwatch Chrome Recorder Demo](.github/assets/demo.gif)
 
 ## 🏗 Installation
 
@@ -58,11 +58,8 @@ npx @nightwatch/chrome-recorder <path to the chrome devtools recording> --output
 
 ## 💻 Programmatic API
 
-```typescript
-import {
-  nightwatchStringifyChromeRecording,
-  formatParsedRecordingContent,
-} from '@nightwatch/chrome-recorder';
+```javascript
+import { nightwatchStringifyChromeRecording } from '@nightwatch/chrome-recorder';
 
 const recordingContent = {
   title: 'recording',
@@ -83,7 +80,7 @@ const stringifiedContent = await nightwatchStringifyChromeRecording(
   JSON.stringify(recordingContent),
 );
 
-console.log(formatParsedRecordingContent(stringifiedContent));
+console.log(stringifiedContent);
 // Console Log output
 //
 // describe('recording', () => {

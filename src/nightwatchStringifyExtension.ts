@@ -32,6 +32,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
   }
 
   async afterAllSteps(out: LineWriter): Promise<void> {
+    this.#appendEndStep(out);
     out.appendLine('});').endBlock();
     out.appendLine('});');
   }
@@ -72,15 +73,13 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
   }
 
   #appendNavigateStep(out: LineWriter, step: NavigateStep): void {
-    out.appendLine(`browser.navigateTo(${this.#formatAsJSLiteral(step.url)});`);
-    out.appendLine(' ');
+    out.appendLine(`.navigateTo(${this.#formatAsJSLiteral(step.url)})`);
   }
 
   #appendViewportStep(out: LineWriter, step: SetViewportStep): void {
     out.appendLine(
-      `browser.windowRect({width: ${step.width}, height: ${step.height}});`,
+      `browser.windowRect({width: ${step.width}, height: ${step.height}})`,
     );
-    out.appendLine(' ');
   }
 
   #appendClickStep(out: LineWriter, step: ClickStep, flow: UserFlow): void {
@@ -89,8 +88,8 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     const hasRightButton = step.button && step.button === 'secondary';
     if (domSelector) {
       hasRightButton
-        ? out.appendLine(`browser.rightClick(${domSelector});`)
-        : out.appendLine(`browser.click(${domSelector});`);
+        ? out.appendLine(`.rightClick(${domSelector})`)
+        : out.appendLine(`.click(${domSelector})`);
     } else {
       console.log(
         `Warning: The click on ${step.selectors} was not able to export to Nightwatch. Please adjust selectors and try again`,
@@ -102,9 +101,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     const domSelector = this.getSelector(step.selectors, flow);
     if (domSelector) {
       out.appendLine(
-        `browser.setValue(${domSelector}, ${this.#formatAsJSLiteral(
-          step.value,
-        )});`,
+        `.setValue(${domSelector}, ${this.#formatAsJSLiteral(step.value)})`,
       );
     }
   }
@@ -114,15 +111,14 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
     if (pressedKey in SupportedKeys) {
       const keyValue = SupportedKeys[pressedKey];
-      out.appendLine(`
-        browser.perform(function() {
+      out.appendLine(
+        `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyDown(Keys.${keyValue});
-        });
-      `);
-      out.appendLine(' ');
+          .keyDown(this.Keys.${keyValue});
+        })`,
+      );
     }
   }
 
@@ -131,26 +127,24 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
     if (pressedKey in SupportedKeys) {
       const keyValue = SupportedKeys[pressedKey];
-      out.appendLine(`
-        browser.perform(function() {
+      out.appendLine(
+        `.perform(function() {
           const actions = this.actions({async: true});
 
           return actions
-          .keyUp(Keys.${keyValue});
-        });
-      `);
-      out.appendLine(' ');
+          .keyUp(this.Keys.${keyValue});
+        })`,
+      );
     }
   }
 
   #appendScrollStep(out: LineWriter, step: ScrollStep, flow: UserFlow): void {
     if ('selectors' in step) {
       const domSelector = this.getSelector(step.selectors, flow);
-      out.appendLine(`browser.moveToElement(${domSelector}, 0, 0);`);
+      out.appendLine(`.moveToElement(${domSelector}, 0, 0)`);
     } else {
-      out.appendLine(`browser.execute('scrollTo(${step.x}, ${step.y})');`);
+      out.appendLine(`.execute('scrollTo(${step.x}, ${step.y})')`);
     }
-    out.appendLine(' ');
   }
 
   #appendDoubleClickStep(
@@ -161,7 +155,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     const domSelector = this.getSelector(step.selectors, flow);
 
     if (domSelector) {
-      out.appendLine(`browser.doubleClick(${domSelector});`);
+      out.appendLine(`.doubleClick(${domSelector})`);
     } else {
       console.log(
         `Warning: The click on ${step.selectors} was not able to be exported to Nightwatch. Please adjust your selectors and try again.`,
@@ -174,12 +168,12 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     step: EmulateNetworkConditionsStep,
   ): void {
     out.appendLine(`
-    browser.setNetworkConditions({
+    .setNetworkConditions({
       offline: false,
       latency: ${step.latency},
       download_throughput: ${step.download},
       upload_throughput: ${step.upload}
-    });`);
+    })`);
   }
 
   #appendWaitForElementStep(
@@ -191,17 +185,21 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
     if (domSelector) {
       out.appendLine(`
-      browser.waitForElementVisible(${domSelector}, ${step.timeout}, function(result) {
+      .waitForElementVisible(${domSelector}, ${step.timeout}, function(result) {
         if (result.value) {
           browser.expect.elements(${domSelector}).count.to.equal(${step.count});
         }
-      });
+      })
       `);
     } else {
       console.log(
         `Warning: The WaitForElement on ${step.selectors} was not able to be exported to Nightwatch. Please adjust your selectors and try again.`,
       );
     }
+  }
+
+  #appendEndStep(out: LineWriter): void {
+    out.appendLine(`.end();`);
   }
 
   getSelector(selectors: Selector[], flow: UserFlow): string | undefined {

@@ -1,6 +1,5 @@
 import { parse, Schema, stringify } from '@puppeteer/replay';
 import { NightwatchStringifyExtension } from './nightwatchStringifyExtension.js';
-import prettier from 'prettier';
 
 export function parseRecordingContent(
   recordingContent: string,
@@ -16,16 +15,6 @@ export async function transformParsedRecording(
   });
 }
 
-export function formatParsedRecordingContent(
-  transformedRecordingContent: string,
-): string {
-  return prettier.format(transformedRecordingContent, {
-    semi: true,
-    singleQuote: true,
-    parser: 'babel',
-  });
-}
-
 export async function nightwatchStringifyChromeRecording(
   recording: string,
 ): Promise<Promise<string> | undefined> {
@@ -38,7 +27,5 @@ export async function nightwatchStringifyChromeRecording(
 
   const parsedRecording = parseRecordingContent(recording);
 
-  return formatParsedRecordingContent(
-    await transformParsedRecording(parsedRecording),
-  );
+  return await transformParsedRecording(parsedRecording);
 }
