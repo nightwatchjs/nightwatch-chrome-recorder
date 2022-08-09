@@ -59,21 +59,21 @@ npx @nightwatch/chrome-recorder <path to the chrome devtools recording> --output
 ## 💻 Programmatic API
 
 ```javascript
-import {
-  nightwatchStringifyChromeRecording,
-} from '@nightwatch/chrome-recorder';
+import { nightwatchStringifyChromeRecording } from '@nightwatch/chrome-recorder';
 
 const recordingContent = {
   title: 'recording',
-  steps: [{
-    type: 'setViewport',
-    width: 1905,
-    height: 223,
-    deviceScaleFactor: 1,
-    isMobile: false,
-    hasTouch: false,
-    isLandscape: false,
-  }, ],
+  steps: [
+    {
+      type: 'setViewport',
+      width: 1905,
+      height: 223,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: false,
+    },
+  ],
 };
 
 const stringifiedContent = await nightwatchStringifyChromeRecording(

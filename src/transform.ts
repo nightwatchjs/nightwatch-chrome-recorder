@@ -43,8 +43,6 @@ export function runTransformsOnChromeRecording({
       return;
     }
 
-    // console.log(stringifiedFile);
-
     const formattedStringifiedFile =
       formatParsedRecordingContent(stringifiedFile);
 

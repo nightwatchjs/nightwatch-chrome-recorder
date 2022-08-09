@@ -76,9 +76,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal(
-      '.setValue("#heading", "nightwatch")\n',
-    );
+    expect(writer.toString()).to.equal('.setValue("#heading", "nightwatch")\n');
   });
 
   it('should correctly exports keyDown step', async () => {
@@ -172,9 +170,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal(
-      `.execute('scrollTo(0, 805)')\n`,
-    );
+    expect(writer.toString()).to.equal(`.execute('scrollTo(0, 805)')\n`);
   });
 
   it('should correctly exports doubleClick step', async () => {
