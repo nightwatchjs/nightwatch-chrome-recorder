@@ -20,7 +20,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
     expect(writer.toString()).to.equal(
-      'browser.windowRect({width: 1905, height: 223});\n\n',
+      'browser.windowRect({width: 1905, height: 223})\n',
     );
   });
 
@@ -42,7 +42,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
     expect(writer.toString()).to.equal(
-      'browser.navigateTo("chrome://new-tab-page/");\n\n',
+      '.navigateTo("chrome://new-tab-page/")\n',
     );
   });
 
@@ -60,7 +60,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal('browser.click("a");\n');
+    expect(writer.toString()).to.equal('.click("a")\n');
   });
 
   it('should correctly exports change step', async () => {
@@ -77,7 +77,7 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(
-      'browser.setValue("#heading", "nightwatch");\n',
+      '.setValue("#heading", "nightwatch")\n',
     );
   });
 
@@ -101,13 +101,12 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(`
-        browser.perform(function() {
+        .perform(function() {
           const actions = this.actions({async: true});
 
           return actions
           .keyDown(Keys.ENTER);
-        });\n
-`);
+        })\n`);
   });
 
   it('should handle keyDown step when key is not supported', async () => {
@@ -152,13 +151,12 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(`
-        browser.perform(function() {
+        .perform(function() {
           const actions = this.actions({async: true});
 
           return actions
           .keyUp(Keys.ENTER);
-        });\n
-`);
+        })\n`);
   });
 
   it('should correctly exports scroll step', async () => {
@@ -175,7 +173,7 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(
-      `browser.execute('scrollTo(0, 805)');\n\n`,
+      `.execute('scrollTo(0, 805)')\n`,
     );
   });
 
@@ -193,7 +191,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal(`browser.doubleClick("#test");\n`);
+    expect(writer.toString()).to.equal(`.doubleClick("#test")\n`);
   });
 
   it('should correctly exports emulateNetworkConditions step', async () => {
@@ -210,12 +208,12 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(`
-    browser.setNetworkConditions({
+    .setNetworkConditions({
       offline: false,
       latency: 2000,
       download_throughput: 50000,
       upload_throughput: 50000
-    });\n`);
+    })\n`);
   });
 
   it('should correctly exports waitForElement step', async () => {
@@ -232,10 +230,10 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(`
-      browser.waitForElementVisible("#", undefined, function(result) {
+      .waitForElementVisible("#", undefined, function(result) {
         if (result.value) {
           browser.expect.elements("#").count.to.equal(2);
         }
-      });\n`);
+      })\n`);
   });
 });

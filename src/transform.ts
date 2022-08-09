@@ -3,8 +3,19 @@ import { readFileSync, writeFile, mkdir, existsSync } from 'fs';
 import * as path from 'path';
 import { nightwatchStringifyChromeRecording } from './main.js';
 import { ExportToFile, Flags } from './types.js';
+import { format } from 'prettier';
 
 const __dirname = path.resolve(path.dirname('.'));
+
+export function formatParsedRecordingContent(
+  transformedRecordingContent: string,
+): string {
+  return format(transformedRecordingContent, {
+    semi: true,
+    singleQuote: true,
+    parser: 'babel',
+  });
+}
 
 export function runTransformsOnChromeRecording({
   files,
@@ -32,16 +43,21 @@ export function runTransformsOnChromeRecording({
       return;
     }
 
+    // console.log(stringifiedFile);
+
+    const formattedStringifiedFile =
+      formatParsedRecordingContent(stringifiedFile);
+
     const fileName = file.split('/').pop();
     const testName = fileName ? fileName.replace('.json', '') : undefined;
 
     if (dry) {
-      console.log(stringifiedFile);
+      console.log(formattedStringifiedFile);
     } else if (!testName) {
       chalk.red('Please try again. Now file or folder found');
     } else {
       exportFileToFolder({
-        stringifiedFile,
+        stringifiedFile: formattedStringifiedFile,
         testName,
         outputPath,
         outputFolder,
