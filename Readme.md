@@ -1,6 +1,8 @@
 # Nightwatch Chrome Recorder
 
 [![Build](https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/actions/workflows/build.yml/badge.svg)](https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/actions/workflows/build.yml)
+[![npm][npm-badge]][npm]
+[![Discord][discord-badge]][discord]
 
 This repo provide tools to export Nightwatch test from Google Chrome Devtools Recordings
 
@@ -90,6 +92,11 @@ console.log(stringifiedContent);
 // });
 ```
 
+## 📝 Documentation
+
+You can find about more about Programmatic API [here](docs/README.md)
+
+
 ## 🐛 Issues
 
 Issues with this schematic can filed [here](https://github.com/nightwatchjs/nightwatch-chrome-recorder/issues)
@@ -150,3 +157,8 @@ We only support following steps:
 10. `waitForElement`
 
 If the step type is not mentioned above, a warning will be shown.
+
+[npm-badge]: https://img.shields.io/npm/v/@nightwatch/chrome-recorder.svg
+[npm]: https://www.npmjs.com/package/@nightwatch/chrome-recorder
+[discord-badge]: https://img.shields.io/discord/618399631038218240.svg?color=7389D8&labelColor=6A7EC2&logo=discord&logoColor=ffffff&style=flat-square
+[discord]: https://discord.gg/SN8Da2X
