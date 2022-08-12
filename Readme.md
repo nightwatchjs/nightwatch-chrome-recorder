@@ -85,8 +85,8 @@ const stringifiedContent = await nightwatchStringifyChromeRecording(
 console.log(stringifiedContent);
 // Console Log output
 //
-// describe('recording', () => {
-//   it('tests recording', () => {
+// describe('recording', function () {
+//   it('tests recording', function () {
 //     browser.windowRect({ width: 1905, height: 223 });
 //   });
 // });
@@ -95,7 +95,6 @@ console.log(stringifiedContent);
 ## 📝 Documentation
 
 You can find about more about Programmatic API [here](docs/README.md)
-
 
 ## 🐛 Issues
 
@@ -153,8 +152,9 @@ We only support following steps:
 6. `keyUp`
 7. `scroll`
 8. `doubleClick`
-9. `emulateNetworkConditions`
-10. `waitForElement`
+9. `hover`
+10. `emulateNetworkConditions`
+11. `waitForElement`
 
 If the step type is not mentioned above, a warning will be shown.
 

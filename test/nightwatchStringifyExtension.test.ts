@@ -51,7 +51,7 @@ describe('NightwatchStringifyExtension', () => {
     const step = {
       type: 'click' as const,
       target: 'main',
-      selectors: ['aria/Test'],
+      selectors: ['#test'],
       offsetX: 1,
       offsetY: 1,
     };
@@ -60,7 +60,7 @@ describe('NightwatchStringifyExtension', () => {
     const writer = new InMemoryLineWriter('  ');
     await ext.stringifyStep(writer, step, flow);
 
-    expect(writer.toString()).to.equal('.click("a")\n');
+    expect(writer.toString()).to.equal('.click("#test")\n');
   });
 
   it('should correctly exports change step', async () => {
@@ -214,7 +214,7 @@ describe('NightwatchStringifyExtension', () => {
     })\n`);
   });
 
-  it('should correctly exports waitForElement step', async () => {
+  it('should correctly exports waitForElement step if operator is "=="', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
       type: 'waitForElement' as const,
@@ -228,10 +228,70 @@ describe('NightwatchStringifyExtension', () => {
     await ext.stringifyStep(writer, step, flow);
 
     expect(writer.toString()).to.equal(`
-      .waitForElementVisible("#", undefined, function(result) {
+      .waitForElementVisible("#test", function(result) {
         if (result.value) {
-          browser.expect.elements("#").count.to.equal(2);
+          browser.expect.elements("#test").count.to.equal(2);
         }
       })\n`);
+  });
+
+  it('should correctly exports waitForElement step if operator is "<="', async () => {
+    const ext = new NightwatchStringifyExtension();
+    const step = {
+      type: 'waitForElement' as const,
+      selectors: ['#test'],
+      operator: '<=' as const,
+      count: 2,
+    };
+    const flow = { title: 'waitForElement step', steps: [step] };
+
+    const writer = new InMemoryLineWriter('  ');
+    await ext.stringifyStep(writer, step, flow);
+
+    expect(writer.toString()).to.equal(`
+      .waitForElementVisible("#test", function(result) {
+        if (result.value) {
+          browser.elements('css selector', "#test", function (result) {
+            browser.assert.ok(result.value.length <= 2, 'element count is less than 2');
+          });
+        }
+      })\n`);
+  });
+
+  it('should correctly exports waitForElement step if operator is ">="', async () => {
+    const ext = new NightwatchStringifyExtension();
+    const step = {
+      type: 'waitForElement' as const,
+      selectors: ['#test'],
+      operator: '>=' as const,
+      count: 2,
+    };
+    const flow = { title: 'waitForElement step', steps: [step] };
+
+    const writer = new InMemoryLineWriter('  ');
+    await ext.stringifyStep(writer, step, flow);
+
+    expect(writer.toString()).to.equal(`
+      .waitForElementVisible("#test", function(result) {
+        if (result.value) {
+          browser.elements('css selector', "#test", function (result) {
+            browser.assert.ok(result.value.length >= 2, 'element count is greater than 2');
+          });
+        }
+      })\n`);
+  });
+
+  it('should correctly add Hover Step', async () => {
+    const ext = new NightwatchStringifyExtension();
+    const step = {
+      type: 'hover' as const,
+      selectors: ['#test'],
+    };
+    const flow = { title: 'Hover step', steps: [step] };
+
+    const writer = new InMemoryLineWriter('  ');
+    await ext.stringifyStep(writer, step, flow);
+
+    expect(writer.toString()).to.equal(`.moveToElement("#test", 0, 0)\n`);
   });
 });

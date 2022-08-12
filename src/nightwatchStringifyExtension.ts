@@ -1,19 +1,20 @@
 import {
-  PuppeteerStringifyExtension,
-  LineWriter,
-  Step,
-  UserFlow,
-  NavigateStep,
-  SetViewportStep,
-  ClickStep,
   ChangeStep,
-  KeyDownStep,
-  KeyUpStep,
-  ScrollStep,
+  ClickStep,
   DoubleClickStep,
   EmulateNetworkConditionsStep,
-  WaitForElementStep,
+  HoverStep,
+  KeyDownStep,
+  KeyUpStep,
+  LineWriter,
+  NavigateStep,
+  PuppeteerStringifyExtension,
+  ScrollStep,
   Selector,
+  SetViewportStep,
+  Step,
+  UserFlow,
+  WaitForElementStep,
 } from '@puppeteer/replay';
 import { SupportedKeys, DowncaseKeys } from './types.js';
 
@@ -23,10 +24,12 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
   }
 
   async beforeAllSteps(out: LineWriter, flow: UserFlow): Promise<void> {
-    out.appendLine(`describe(${this.#formatAsJSLiteral(flow.title)}, () => {`);
+    out.appendLine(
+      `describe(${this.#formatAsJSLiteral(flow.title)}, function () {`,
+    );
     out
       .appendLine(
-        `it(${this.#formatAsJSLiteral(`tests ${flow.title}`)}, () => {`,
+        `it(${this.#formatAsJSLiteral(`tests ${flow.title}`)}, function () {`,
       )
       .startBlock();
   }
@@ -65,6 +68,8 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
         return this.#appendDoubleClickStep(out, step, flow);
       case 'emulateNetworkConditions':
         return this.#appendEmulateNetworkConditionsStep(out, step);
+      case 'hover':
+        return this.#appendHoverStep(out, step, flow);
       case 'waitForElement':
         return this.#appendWaitForElementStep(out, step, flow);
       default:
@@ -163,6 +168,18 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     }
   }
 
+  #appendHoverStep(out: LineWriter, step: HoverStep, flow: UserFlow): void {
+    const domSelector = this.getSelector(step.selectors, flow);
+
+    if (domSelector) {
+      out.appendLine(`.moveToElement(${domSelector}, 0, 0)`);
+    } else {
+      console.log(
+        `Warning: The Hover on ${step.selectors} was not able to be exported to Nightwatch. Please adjust your selectors and try again.`,
+      );
+    }
+  }
+
   #appendEmulateNetworkConditionsStep(
     out: LineWriter,
     step: EmulateNetworkConditionsStep,
@@ -182,12 +199,29 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     flow: UserFlow,
   ): void {
     const domSelector = this.getSelector(step.selectors, flow);
-
+    let assertionStatement;
     if (domSelector) {
+      switch (step.operator) {
+        case '<=':
+          assertionStatement = `browser.elements('css selector', ${domSelector}, function (result) {
+            browser.assert.ok(result.value.length <= ${step.count}, 'element count is less than ${step.count}');
+          });`;
+          break;
+        case '==':
+          assertionStatement = `browser.expect.elements(${domSelector}).count.to.equal(${step.count});`;
+          break;
+        case '>=':
+          assertionStatement = `browser.elements('css selector', ${domSelector}, function (result) {
+            browser.assert.ok(result.value.length >= ${step.count}, 'element count is greater than ${step.count}');
+          });`;
+          break;
+      }
       out.appendLine(`
-      .waitForElementVisible(${domSelector}, ${step.timeout}, function(result) {
+      .waitForElementVisible(${domSelector}, ${
+        step.timeout ? `${step.timeout}, ` : ''
+      }function(result) {
         if (result.value) {
-          browser.expect.elements(${domSelector}).count.to.equal(${step.count});
+          ${assertionStatement}
         }
       })
       `);
@@ -217,9 +251,17 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     }
 
     if (preferredSelector && preferredSelector[0]) {
-      return `${this.#formatAsJSLiteral(preferredSelector[0][0])}`;
+      return `${this.#formatAsJSLiteral(
+        Array.isArray(preferredSelector[0])
+          ? preferredSelector[0][0]
+          : preferredSelector[0],
+      )}`;
     } else {
-      return `${this.#formatAsJSLiteral(nonAriaSelectors[0][0])}`;
+      return `${this.#formatAsJSLiteral(
+        Array.isArray(nonAriaSelectors[0])
+          ? nonAriaSelectors[0][0]
+          : nonAriaSelectors[0],
+      )}`;
     }
   }
 
