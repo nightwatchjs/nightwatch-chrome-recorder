@@ -235,6 +235,28 @@ describe('NightwatchStringifyExtension', () => {
       })\n`);
   });
 
+  it('should correctly exports waitForElement step with timeout', async () => {
+    const ext = new NightwatchStringifyExtension();
+    const step = {
+      type: 'waitForElement' as const,
+      selectors: ['#test'],
+      operator: '==' as const,
+      count: 2,
+      timeout: 2000,
+    };
+    const flow = { title: 'waitForElement step', steps: [step] };
+
+    const writer = new InMemoryLineWriter('  ');
+    await ext.stringifyStep(writer, step, flow);
+
+    expect(writer.toString()).to.equal(`
+      .waitForElementVisible("#test", 2000, function(result) {
+        if (result.value) {
+          browser.expect.elements("#test").count.to.equal(2);
+        }
+      })\n`);
+  });
+
   it('should correctly exports waitForElement step if operator is "<="', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
