@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[main.ts:18](https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/blob/main/src/main.ts#L18)
+[main.ts:18](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L18)
 
 ---
 
@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[main.ts:4](https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/blob/main/src/main.ts#L4)
+[main.ts:4](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L4)
 
 ---
 
@@ -68,4 +68,4 @@
 
 #### Defined in
 
-[main.ts:10](https://github.com/vaibhavsingh97/nightwatch-chrome-recorder/blob/main/src/main.ts#L10)
+[main.ts:10](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L10)
