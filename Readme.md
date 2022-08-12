@@ -86,7 +86,7 @@ console.log(stringifiedContent);
 // Console Log output
 //
 // describe('recording', function () {
-//   it('tests recording', function () {
+//   it('tests recording', function (browser) {
 //     browser.windowRect({ width: 1905, height: 223 });
 //   });
 // });

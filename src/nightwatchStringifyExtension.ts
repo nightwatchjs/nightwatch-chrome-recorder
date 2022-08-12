@@ -29,7 +29,9 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     );
     out
       .appendLine(
-        `it(${this.#formatAsJSLiteral(`tests ${flow.title}`)}, function () {`,
+        `it(${this.#formatAsJSLiteral(
+          `tests ${flow.title}`,
+        )}, function (browser) {`,
       )
       .startBlock();
   }
