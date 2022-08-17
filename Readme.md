@@ -11,7 +11,7 @@ This repo provide tools to convert JSON user flows from [Google Chrome DevTools 
 💃 Users can also use a dry run to see the interim output of the recordings  
 👨‍💻 Programmatic API which users can use in their own project to create plugins or custom scripts.
 
-Alternatively, you can export JSON user flows as Nightwatch test scripts straight away from Chrome DevTools with our [Nightwatch Recorder Chrome extension](https://github.com/nightwatchjs/nightwatch-recorder-extension).
+Alternatively, you can export JSON user flows as Nightwatch test scripts straight away from Chrome DevTools with our [Nightwatch Recorder Chrome extension](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk/). See [Create Nightwatch test using Google Chrome DevTools Recorder](https://nightwatchjs.org/guide/writing-tests/chrome-devtools-recorder.html) to learn more.
 
 ## 📹 Demo
 
