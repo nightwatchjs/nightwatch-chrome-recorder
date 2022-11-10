@@ -246,7 +246,7 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
     let preferredSelector;
 
     // Give preference to user selector
-    if (flow.selectorAttribute) {
+    if (flow && flow.selectorAttribute) {
       preferredSelector = this.filterArrayByString(
         nonAriaSelectors,
         flow.selectorAttribute,
