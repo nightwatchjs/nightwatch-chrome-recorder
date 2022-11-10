@@ -12,6 +12,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc -p .",
+    "prepublishOnly": "npm run build",
     "watch": "tsc -w",
     "lint": "eslint '**/*.{js,ts}' --fix .",
     "prettier": "prettier --write .",
