@@ -1,4 +1,4 @@
-import { parse, Schema, stringify } from '@puppeteer/replay';
+import { parse, Schema, stringify, stringifyStep } from '@puppeteer/replay';
 import { NightwatchStringifyExtension } from './nightwatchStringifyExtension.js';
 
 export function parseRecordingContent(
@@ -11,6 +11,12 @@ export async function transformParsedRecording(
   parsedRecording: Schema.UserFlow,
 ) {
   return await stringify(parsedRecording, {
+    extension: new NightwatchStringifyExtension(),
+  });
+}
+
+export async function stringifyParsedStep(step: Schema.Step): Promise<string> {
+  return await stringifyStep(step, {
     extension: new NightwatchStringifyExtension(),
   });
 }

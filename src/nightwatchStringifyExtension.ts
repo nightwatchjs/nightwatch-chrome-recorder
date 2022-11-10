@@ -15,6 +15,7 @@ import {
   Step,
   UserFlow,
   WaitForElementStep,
+  StepType,
 } from '@puppeteer/replay';
 import { SupportedKeys, DowncaseKeys } from './types.js';
 
@@ -52,27 +53,27 @@ export class NightwatchStringifyExtension extends PuppeteerStringifyExtension {
 
   #appendStepType(out: LineWriter, step: Step, flow: UserFlow): void {
     switch (step.type) {
-      case 'setViewport':
+      case StepType.SetViewport:
         return this.#appendViewportStep(out, step);
-      case 'navigate':
+      case StepType.Navigate:
         return this.#appendNavigateStep(out, step);
-      case 'click':
+      case StepType.Click:
         return this.#appendClickStep(out, step, flow);
-      case 'change':
+      case StepType.Change:
         return this.#appendChangeStep(out, step, flow);
-      case 'keyDown':
+      case StepType.KeyDown:
         return this.#appendKeyDownStep(out, step);
-      case 'keyUp':
+      case StepType.KeyUp:
         return this.#appendKeyUpStep(out, step);
-      case 'scroll':
+      case StepType.Scroll:
         return this.#appendScrollStep(out, step, flow);
-      case 'doubleClick':
+      case StepType.DoubleClick:
         return this.#appendDoubleClickStep(out, step, flow);
-      case 'emulateNetworkConditions':
+      case StepType.EmulateNetworkConditions:
         return this.#appendEmulateNetworkConditionsStep(out, step);
-      case 'hover':
+      case StepType.Hover:
         return this.#appendHoverStep(out, step, flow);
-      case 'waitForElement':
+      case StepType.WaitForElement:
         return this.#appendWaitForElementStep(out, step, flow);
       default:
         return this.logStepsNotImplemented(step);
