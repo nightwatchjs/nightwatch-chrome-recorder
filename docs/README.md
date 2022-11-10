@@ -8,6 +8,7 @@
 
 - [nightwatchStringifyChromeRecording](README.md#nightwatchstringifychromerecording)
 - [parseRecordingContent](README.md#parserecordingcontent)
+- [stringifyParsedStep](README.md#stringifyparsedstep)
 - [transformParsedRecording](README.md#transformparsedrecording)
 
 ## Functions
@@ -28,7 +29,7 @@
 
 #### Defined in
 
-[main.ts:18](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L18)
+[main.ts:24](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L24)
 
 ---
 
@@ -49,6 +50,26 @@
 #### Defined in
 
 [main.ts:4](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L4)
+
+---
+
+### stringifyParsedStep
+
+▸ **stringifyParsedStep**(`step`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name   | Type   |
+| :----- | :----- |
+| `step` | `Step` |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+[main.ts:18](https://github.com/nightwatchjs/nightwatch-chrome-recorder/blob/main/src/main.ts#L18)
 
 ---
 

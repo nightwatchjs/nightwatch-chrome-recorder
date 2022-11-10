@@ -1,13 +1,13 @@
 import { InMemoryLineWriter } from './InMemoryLineWriter.js';
 import { NightwatchStringifyExtension } from '../src/nightwatchStringifyExtension.js';
 import { expect } from 'chai';
-import { Key } from '@puppeteer/replay';
+import { Key, StepType, AssertedEventType } from '@puppeteer/replay';
 
 describe('NightwatchStringifyExtension', () => {
   it('should correctly exports setViewport step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'setViewport' as const,
+      type: StepType.SetViewport as const,
       width: 1905,
       height: 223,
       deviceScaleFactor: 1,
@@ -27,11 +27,11 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports navigate step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'navigate' as const,
+      type: StepType.Navigate as const,
       url: 'chrome://new-tab-page/',
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'chrome://new-tab-page/',
           title: 'New Tab',
         },
@@ -49,7 +49,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports click step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'click' as const,
+      type: StepType.Click as const,
       target: 'main',
       selectors: ['#test'],
       offsetX: 1,
@@ -66,7 +66,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports change step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'change' as const,
+      type: StepType.Change as const,
       value: 'nightwatch',
       selectors: [['aria/Search'], ['#heading']],
       target: 'main',
@@ -82,12 +82,12 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports keyDown step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'keyDown' as const,
+      type: StepType.KeyDown as const,
       target: 'main',
       key: 'Enter' as Key,
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'https://google.com',
           title: 'nightwatch - Google Search',
         },
@@ -111,12 +111,12 @@ describe('NightwatchStringifyExtension', () => {
   it('should handle keyDown step when key is not supported', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'keyDown' as const,
+      type: StepType.KeyDown as const,
       target: 'main',
       key: 'KEY_DOESNT_EXIST' as Key,
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'https://google.com',
           title: 'nightwatch - Google Search',
         },
@@ -133,12 +133,12 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports keyUp step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'keyUp' as const,
+      type: StepType.KeyUp as const,
       target: 'main',
       key: 'Enter' as Key,
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'https://google.com',
           title: 'nightwatch - Google Search',
         },
@@ -162,7 +162,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports scroll step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'scroll' as const,
+      type: StepType.Scroll as const,
       target: 'main',
       x: 0,
       y: 805,
@@ -178,7 +178,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports doubleClick step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'doubleClick' as const,
+      type: StepType.DoubleClick as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
       offsetX: 1,
@@ -195,7 +195,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports emulateNetworkConditions step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'emulateNetworkConditions' as const,
+      type: StepType.EmulateNetworkConditions as const,
       download: 50000,
       upload: 50000,
       latency: 2000,
@@ -217,7 +217,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports waitForElement step if operator is "=="', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'waitForElement' as const,
+      type: StepType.WaitForElement as const,
       selectors: ['#test'],
       operator: '==' as const,
       count: 2,
@@ -238,7 +238,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports waitForElement step with timeout', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'waitForElement' as const,
+      type: StepType.WaitForElement as const,
       selectors: ['#test'],
       operator: '==' as const,
       count: 2,
@@ -260,7 +260,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports waitForElement step if operator is "<="', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'waitForElement' as const,
+      type: StepType.WaitForElement as const,
       selectors: ['#test'],
       operator: '<=' as const,
       count: 2,
@@ -283,7 +283,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly exports waitForElement step if operator is ">="', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'waitForElement' as const,
+      type: StepType.WaitForElement as const,
       selectors: ['#test'],
       operator: '>=' as const,
       count: 2,
@@ -306,7 +306,7 @@ describe('NightwatchStringifyExtension', () => {
   it('should correctly add Hover Step', async () => {
     const ext = new NightwatchStringifyExtension();
     const step = {
-      type: 'hover' as const,
+      type: StepType.Hover as const,
       selectors: ['#test'],
     };
     const flow = { title: 'Hover step', steps: [step] };
