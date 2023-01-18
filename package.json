@@ -1,6 +1,6 @@
 {
   "name": "@nightwatch/chrome-recorder",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Generate Nightwatch Tests from Google Chrome DevTools Recordings",
   "main": "dist/main.js",
   "bin": "bin/nightwatch-chrome-recorder.js",
