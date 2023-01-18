@@ -31,4 +31,12 @@ export class InMemoryLineWriter implements LineWriter {
     // Scripts should end with a final blank line.
     return this.#lines.join('\n') + '\n';
   }
+
+  getIndent(): string {
+    return this.#indentation;
+  }
+
+  getSize(): number {
+    return this.#lines.length;
+  }
 }
